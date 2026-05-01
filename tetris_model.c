@@ -10,7 +10,7 @@
 #define NUM_PIECE_TYPES 4
 #define MAX_ROTATIONS 4
 
-/* 4 tetrominos: I, O, T, L */
+/* ------------------------ 4 tetrominos: I, O, T, L ------------------------ */
 typedef enum { PIECE_I = 0, PIECE_O = 1, PIECE_T = 2, PIECE_L = 3 } PieceType;
 
 static const char* PIECE_NAMES[NUM_PIECE_TYPES] = {"I", "O", "T", "L"};
@@ -69,7 +69,7 @@ static const int PIECE_CELLS[NUM_PIECE_TYPES][MAX_ROTATIONS][4][2] = {
 
 static const int PIECE_NUM_ROTATIONS[NUM_PIECE_TYPES] = {2, 1, 4, 4};
 
-// sequence
+/* -------------------------------- sequence -------------------------------- */
 int sequence[SEQUENCE_LENGTH];
 
 static void generate_sequence(void) {
@@ -77,7 +77,7 @@ static void generate_sequence(void) {
     sequence[i] = rand() % NUM_PIECE_TYPES;
 }
 
-// board helpers
+/* ------------------------------ board helpers ----------------------------- */
 static int piece_width(int ptype, int rot) {
   int max_col = 0;
   for (int i = 0; i < 4; i++) {
@@ -139,7 +139,7 @@ static int clear_lines(int board[][BOARD_WIDTH]) {
   return cleared;
 }
 
-// evaluation
+/* ------------------------------- evaluation ------------------------------- */
 static int col_height(int board[][BOARD_WIDTH], int col) {
   for (int r = 0; r < BOARD_HEIGHT; r++)
     if (board[r][col]) return BOARD_HEIGHT - r;
@@ -175,7 +175,7 @@ static int bumpiness(int board[][BOARD_WIDTH]) {
   return bump;
 }
 
-// log helpers
+/* ------------------------------- log helpers ------------------------------ */
 static void write_board(FILE* f, int board[][BOARD_WIDTH]) {
   for (int r = 0; r < BOARD_HEIGHT; r++) {
     for (int c = 0; c < BOARD_WIDTH; c++) {
@@ -186,7 +186,7 @@ static void write_board(FILE* f, int board[][BOARD_WIDTH]) {
   }
 }
 
-// stats
+/* ---------------------------------- stats --------------------------------- */
 typedef struct {
   const char* model_name;
   int turns_played;
@@ -200,7 +200,7 @@ typedef struct {
   int final_bumpiness;
 } Stats;
 
-// simulation
+/* ------------------------------- simulation ------------------------------- */
 /*
  * model == 0  →  greedy:    maximise lines cleared; break ties by minimising
  *                            aggregate column height.
@@ -311,7 +311,7 @@ static void simulate(int model, const char* log_file, Stats* st) {
          st->total_lines, log_file);
 }
 
-// analysis
+/* -------------------------------- analysis -------------------------------- */
 static void print_analysis(const Stats* g, const Stats* h) {
   printf("\nGREEDY vs HEURISTIC\n");
 
